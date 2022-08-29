@@ -9182,3 +9182,6 @@ Index: []
 2022-08-26 21:43:46,978 : _search_preprocess  : _search_preprocess : DEBUG : ['cik:861439']
 2022-08-26 21:43:46,978 : _search_preprocess  : _search_preprocess : DEBUG : key : {'cik': '861439'}, modifier : {}
 2022-08-26 21:43:46,978 : _get_from_key  : _get_from_key : DEBUG : keyed columns : cik : [  60512   66740   60512 ... 1867956 1879373  711377]
+2022-08-29 16:40:19,609 : _search_preprocess  : _search_preprocess : DEBUG : ['cik:861439']
+2022-08-29 16:40:19,617 : _search_preprocess  : _search_preprocess : DEBUG : key : {'cik': '861439'}, modifier : {}
+2022-08-29 16:40:19,618 : _get_from_key  : _get_from_key : DEBUG : keyed columns : cik : [  60512   66740   60512 ... 1867956 1879373  711377]
