@@ -1,6 +1,8 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+# 파일 업로드 테스트용
+
 """
 Tests for the Amazon S3 file transfer demo.
 

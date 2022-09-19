@@ -1,6 +1,7 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
+
 """
 Use Boto 3 managed file transfers to manage multipart uploads to and downloads
 from an Amazon S3 bucket.
@@ -22,7 +23,8 @@ MB = 1024 * 1024
 s3 = boto3.resource('s3')
 
 
-class TransferCallback:
+class TransferCallback: 
+    
     """
     Handle callbacks from the transfer manager.
 

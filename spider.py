@@ -10,8 +10,12 @@ import pandas as pd
 from numexpr import evaluate
 from datefinder import find_dates
 
+# 파티셔닝된 DB 기반으로 수정 필요
+
+
 class spider:
     class phrase:
+        # collections 상속하여 재작성하는 편이 나을 듯
         def __init__(self, keyword: str):
             self.phrase = self._preprocessor(keyword)
             # assert self.key or self.modifier, "There's something wrong with your input"
@@ -100,7 +104,7 @@ class spider:
                 return f'{key}:{input}'
             return
 
-    def __init__(self, data_path, index_path='index.pkl'):
+    def __init__(self, data_path: Union[str, Path], index_path: Union[str, Path] = 'index.pkl'):
         # self.index.cols = ['acc', 'cik', 'date', 'type', 'name', 'ticker', 'exchange', 'path']
         self.dir: Path = Path(data_path)
         self.index_path: Path = self.dir / index_path
@@ -117,12 +121,6 @@ class spider:
     def search(self, keyword: Union[str, phrase] = '', output: str = 'cik') -> pd.Series:
         """
         get string of search query and return result of query as pd.Series[val = output]
-        사용자의 입력을 받아 적절한 검색을 수행하고 결과를 반환한다.
-
-        :type key: Union[str, phrase]
-        :param key keyword: 검색 대상이 되는 구문
-        :param str output: 출력 대상이 되는 컬럼
-        :returns: idx-output 형태의 판다스 시리즈
         """
         if isinstance(keyword, str):
             key, modifier = self.phrase(keyword).phrase
@@ -150,16 +148,10 @@ class spider:
         return self.index.loc[result, output]
 
     def company(self, after=0, before=99999999, min_freq: int = 0, get_period=True):
-        """        search unique cik from given period and return that (cik, *period) to spider.pharse object
+        """        
+        search unique cik from given period and return that (cik, *period) to spider.pharse object
         options: min_freq = minimum baseline of annual reports
-        actually this method is just a smart wrapper for access spider.search() more easily
-
-        type date: int or str
-        param date after: 검색 시작일
-        param date before: 검색 종료일
-        param int min_freq: 충족해야 할 연간 최소 보고서 수
-        param bool get_period: 검색 기간을 함께 반환할지 여부
-        returns: get/ search 메서드에 활용할 수 있는 회사 고유번호가 담긴 spider.phrase object
+        this method is just a smart wrapper for access spider.search()
         """
         phrase = spider.phrase(f'after:{after} before:{before}')
         corps = self.search(phrase, output='cik').unique()
@@ -179,10 +171,7 @@ class spider:
     def get(self, key: phrase):
         """
         get spider.syntax object, return pd.Series of (idx, text)
-        phrase의 지정 대상이 너무 클 경우, 메모리 부족으로 인한 에러가 발생할 수 있음.
-
-        :param spider.phrase key: 검색 대상이 되는 구문
-        :returns: idx-text 형태의 판다스 시리즈
+        대상이 너무 클 경우 OOM 대처하기 위한 코드 필요.
         """
         assert isinstance(
             key, spider.phrase), "keyword must be spider.syntax object"
@@ -212,9 +201,8 @@ class spider:
 
     def _buildtree(self):
         """
-        사용자의 디렉토리 구성이 평탄하다는 가정 하에 파일을 일체 순회하지 않고 빠르게 트리 노드를 작성함
-
-        :returns: spider.tree object에 딕셔너리 트리의 시각화된 표현을 할당함
+        사용자의 디렉토리 구성이 평탄하다는 가정 하에 빠르게 트리 노드를 작성함
+        spider.tree object에 딕셔너리 트리의 시각화된 표현을 할당함
         """
         if self.tree:
             return self.tree
